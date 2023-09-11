@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <% if (data) { %>
+            <h1>Welcome <%= data %></h1>
+        <% } %>
+         
+        <form action="/api/v1/user/register" method="post">
+            <label for="email">
+                <p>Email</p>
+                <input type="email" id="email" name="email">
+            </label>
+
+            <label for="nom">
+                <p>Nom</p>
+                <input type="text" id="nom" name="nom">
+            </label>
+
+            <label for="prenom">
+                <p>Prenom</p>
+                <input type="text" id="prenom" name="prenom">
+            </label>
+
+            <label for="pass">
+                <p>Mot de passe</p>
+                <input type="password" id="pass" name="pass">
+            </label>
+            <br>
+            <button type="submit">
+                Register
+            </button>
+        </form>
+</body>
+</html>

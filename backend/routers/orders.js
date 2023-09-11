@@ -1,15 +1,9 @@
 const express= require('express');
 const router = express.Router();
-const {orders} = require('../models/orders.js');
+const api = require('../controllers/ordersController');
 
 
-router.get(`/`,async (req,res)=>{
-    const orderslist = await Product.find();
-    if(!orderslist){
-        res.status(500).json({success: false});
-    }
-    res.send(orderslist);
-})
+router.get(`/`,api.getAllOrders);
 
 
 module.exports=router;

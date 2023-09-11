@@ -1,13 +1,13 @@
 const express = require('express');
 const app =express();
-const bodyparser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors= require('cors');
-const authJwt= require('./helpers/jwt');
 
 app.use(cors());
 app.options('*',cors());
+app.set('view engine', 'ejs');
+app.set('static', 'public');
 
 require('dotenv/config');
 const api = process.env.API_URL;
@@ -19,9 +19,9 @@ const categoryRouter = require('./routers/category');
 const userRouter = require('./routers/user');
 
 //middleware
-app.use(bodyparser.json());
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
 app.use(morgan('tiny'));
-app.use(authJwt);
 
 //Routers
 app.use(`${api}/products`,productsRouter);
@@ -43,7 +43,7 @@ mongoose.connect(process.env.Connection_string,{
     console.log(err);
 })
 
-app.listen(3000,()=>{
+app.listen(4000,()=>{
     
-    console.log('server running on http://localhost:3000');
+    console.log('server running on http://localhost:4000');
 })

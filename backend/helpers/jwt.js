@@ -1,12 +1,27 @@
-const expressJwt = require('express-jwt');
+const jwt = require("jsonwebtoken");
 
-function authJwt() {
+const AuthMiddleware = (req, res, next) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
     const secret = process.env.JWT_SECRET;
-    const api = process.env.API_URL;
-    return expressJwt({
-        secret,
-        algorithms: ['HS256'],
-    })
-}  
- 
-module.exports= authJwt;
+    
+    jwt.verify(token, secret, (err, decodedToken) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                // Token has expired
+                return res.status(401).json({ error: 'Token expired' });
+            } else {
+                // Other verification error
+                return res.status(401).json({ error: 'Invalid auth token' });
+            }
+        }
+        
+        if (!decodedToken) {
+            return res.status(401).json({ error: 'Invalid auth token' });
+        }
+
+        req.user = decodedToken;
+        next();
+    });
+}
+
+module.exports = AuthMiddleware;
